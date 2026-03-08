@@ -62,7 +62,16 @@ body {
   justify-content: center;
   gap: 16px;
   z-index: 999;
-  animation: splashFadeOut 0.6s ease 2s forwards;
+  transition: opacity 0.6s ease;
+}
+
+#splash.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#splash.gone {
+  display: none;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -77,10 +86,6 @@ body {
 @keyframes splashBounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
-}
-
-@keyframes splashFadeOut {
-  to { opacity: 0; pointer-events: none; visibility: hidden; }
 }
 
 #splash-logo {
@@ -101,10 +106,8 @@ body {
 }
 
 /* ── APP WRAPPER ── */
-#app { display: flex; flex-direction: column; height: 100dvh; }
-#app.hidden { opacity: 0; }
-#app { animation: appFadeIn 0.5s ease 2.4s both; }
-@keyframes appFadeIn { from { opacity: 0; } to { opacity: 1; } }
+#app { display: flex; flex-direction: column; height: 100dvh; opacity: 1; transition: opacity 0.5s ease; }
+#app.hidden { opacity: 0; pointer-events: none; }
 
 /* ── TAB BAR ── */
 .tab-bar {
