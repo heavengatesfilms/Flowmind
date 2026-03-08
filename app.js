@@ -15,8 +15,25 @@ let selectedEmoji = EMOJIS[0];
 let selectedMood  = MOODS[0];
 let currentTab    = ‘dashboard’;
 
+// ── SPLASH SCREEN ──
+function initSplash() {
+const splash = document.getElementById(‘splash’);
+const app    = document.getElementById(‘app’);
+
+// After 2s fade out splash and reveal app
+setTimeout(() => {
+splash.classList.add(‘fade-out’);
+app.classList.remove(‘hidden’);
+// After fade completes, fully remove splash
+setTimeout(() => {
+splash.classList.add(‘gone’);
+}, 700);
+}, 2000);
+}
+
 // ── INIT ──
 document.addEventListener(‘DOMContentLoaded’, () => {
+initSplash();
 // Greeting
 const h = new Date().getHours();
 document.getElementById(‘greeting’).textContent =
