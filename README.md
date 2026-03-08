@@ -2,7 +2,7 @@
 
 > A personal productivity web app for tracking habits, managing tasks, timing focus sessions, and chatting with an AI assistant — built to run on iPhone from your home screen.
 
-**Live app:** [gatesfilms.github.io/Flowmind](https://gatesfilms.github.io/Flowmind)
+**Live app:** [heavengatesfilms.github.io/Flowmind](https://heavengatesfilms.github.io/Flowmind)
 
 -----
 
