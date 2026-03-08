@@ -20,7 +20,7 @@
 
 ## 📱 How to Install on iPhone
 
-1. Open [gatesfilms.github.io/Flowmind](https://gatesfilms.github.io/Flowmind) in **Safari**
+1. Open [heavengatesfilms.github.io/Flowmind](https://heavengatesfilms.github.io/Flowmind) in **Safari**
 1. Tap the **Share** button (box with arrow icon at the bottom)
 1. Scroll down and tap **Add to Home Screen**
 1. Tap **Add** — FlowMind will appear as an app icon on your home screen!
