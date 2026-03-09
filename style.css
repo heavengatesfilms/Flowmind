@@ -91,7 +91,7 @@ body {
   backdrop-filter: saturate(180%) blur(24px);
   -webkit-backdrop-filter: saturate(180%) blur(24px);
   border-top: 1px solid var(--b1);
-  padding: 10px 0 calc(12px + var(--sab));
+  padding: 10px 0 calc(22px + var(--sab));
   flex-shrink: 0;
   position: relative;
   z-index: 20;
@@ -171,8 +171,9 @@ body {
   font-size: 30px;
   font-weight: 800;
   color: var(--t1);
-  letter-spacing: -0.5px;
-  line-height: 1;
+  letter-spacing: -0.3px;
+  line-height: 1.1;
+  font-stretch: normal;
 }
 .page-sub {
   font-size: 13px;
@@ -180,12 +181,13 @@ body {
   font-weight: 500;
   margin-top: 5px;
   margin-bottom: 24px;
+  letter-spacing: normal;
 }
 .section-label {
   font-size: 10.5px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.10em;
   color: var(--t3);
   margin: 26px 0 12px;
 }
@@ -220,7 +222,8 @@ body {
   font-size: 21px;
   font-weight: 800;
   color: var(--t1);
-  letter-spacing: -0.3px;
+  letter-spacing: -0.2px;
+  font-stretch: normal;
 }
 .logo-name em {
   font-style: normal;
@@ -262,7 +265,7 @@ body {
   font-size: 24px;
   font-weight: 800;
   color: #fff;
-  letter-spacing: -0.3px;
+  letter-spacing: -0.2px;
   position: relative; z-index: 1;
 }
 .hero-date {
@@ -310,7 +313,8 @@ body {
   font-size: 20px;
   font-weight: 800;
   color: var(--t1);
-  letter-spacing: -0.5px;
+  letter-spacing: -0.2px;
+  font-stretch: normal;
 }
 .stat-lbl {
   font-size: 9.5px;
@@ -493,8 +497,8 @@ body {
 }
 .timer-time {
   font-family: var(--font-display);
-  font-size: 54px; font-weight: 800;
-  color: var(--t1); letter-spacing: -4px; line-height: 1;
+  font-size: 42px; font-weight: 800;
+  color: var(--t1); letter-spacing: -2px; line-height: 1;
 }
 .timer-label { font-size: 12px; color: var(--t3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; }
 
