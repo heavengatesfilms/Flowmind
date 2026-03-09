@@ -1,342 +1,1106 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="FlowMind">
-  <meta name="theme-color" content="#0A0B14">
-  <title>FlowMind</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+/* ═══════════════════════════════════════════════
+   FLOWMIND — PREMIUM DARK UI
+   Inspired by luxury fintech. Deep space + neon.
+   Font: DM Sans (body) + Syne (display headings)
+═══════════════════════════════════════════════ */
 
-<div id="app">
-  <div class="app-content">
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
 
-    <!-- ══ DASHBOARD ══ -->
-    <div class="screen active" id="screen-dashboard">
-      <div class="logo-row">
-        <div class="logo-mark">🧠</div>
-        <div class="logo-name">Flow<em>mind</em></div>
-      </div>
+/* ── DESIGN TOKENS ── */
+:root {
+  /* Palette */
+  --blue:       #3B82F6;
+  --blue-b:     #2563EB;
+  --blue-glow:  rgba(59,130,246,0.4);
+  --teal:       #2DD4BF;
+  --teal-glow:  rgba(45,212,191,0.3);
+  --purple:     #A855F7;
+  --purple-glow:rgba(168,85,247,0.35);
+  --amber:      #F59E0B;
+  --orange:     #F97316;
+  --rose:       #F43F5E;
 
-      <div class="hero-card">
-        <div class="hero-greeting" id="greeting">Good morning!</div>
-        <div class="hero-date" id="today-date"></div>
-        <div class="hero-mascot">
-          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-            <ellipse cx="40" cy="52" rx="20" ry="12" fill="rgba(255,255,255,0.08)"/>
-            <circle cx="40" cy="36" r="26" fill="url(#hg)"/>
-            <circle cx="32" cy="32" r="5.5" fill="white" opacity="0.95"/>
-            <circle cx="48" cy="32" r="5.5" fill="white" opacity="0.95"/>
-            <circle cx="33" cy="33" r="2.8" fill="#0F1120"/>
-            <circle cx="49" cy="33" r="2.8" fill="#0F1120"/>
-            <circle cx="34" cy="32" r="1" fill="white"/>
-            <circle cx="50" cy="32" r="1" fill="white"/>
-            <path d="M34 42 Q40 48 46 42" stroke="white" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.9"/>
-            <defs>
-              <linearGradient id="hg" x1="14" y1="10" x2="66" y2="62" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stop-color="#2DD4BF"/>
-                <stop offset="100%" stop-color="#3B82F6"/>
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-      </div>
+  /* Surface — permanent dark (matches reference image) */
+  --bg:        #0A0B14;
+  --surface-1: #0F1120;
+  --surface-2: #141628;
+  --surface-3: #1A1D35;
+  --surface-4: #1F2240;
 
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-glow"></div>
-          <div class="stat-icon">✦</div>
-          <div class="stat-val" id="stat-habits">0/0</div>
-          <div class="stat-lbl">Habits</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-glow"></div>
-          <div class="stat-icon">◈</div>
-          <div class="stat-val" id="stat-tasks">0</div>
-          <div class="stat-lbl">Tasks Left</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-glow"></div>
-          <div class="stat-icon">◎</div>
-          <div class="stat-val" id="stat-focus">0m</div>
-          <div class="stat-lbl">Focus</div>
-        </div>
-      </div>
+  /* Text */
+  --t1: #F1F2FF;
+  --t2: #B0B5D8;
+  --t3: #666A8A;
 
-      <div class="section-label">Today's Habits</div>
-      <div class="habit-scroll" id="dash-habits">
-        <div style="color:var(--t3);font-size:13px;padding:8px 0">No habits yet</div>
-      </div>
+  /* Borders */
+  --b1: rgba(255,255,255,0.07);
+  --b2: rgba(255,255,255,0.04);
 
-      <div class="section-label">Priority Tasks</div>
-      <div id="dash-tasks">
-        <div style="color:var(--t3);font-size:13px;padding:8px 0">No tasks yet</div>
-      </div>
-    </div>
+  /* Shadows */
+  --sh-sm:  0 2px 8px rgba(0,0,0,0.4);
+  --sh-md:  0 4px 20px rgba(0,0,0,0.5);
+  --sh-lg:  0 8px 40px rgba(0,0,0,0.6);
+  --sh-xl:  0 16px 60px rgba(0,0,0,0.7);
 
-    <!-- ══ HABITS ══ -->
-    <div class="screen" id="screen-habits">
-      <div class="page-title">Habits</div>
-      <div class="page-sub">Build streaks, one day at a time</div>
-      <div id="habits-list"></div>
-    </div>
+  /* Radii */
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 22px;
+  --r-xl: 28px;
 
-    <!-- ══ TASKS ══ -->
-    <div class="screen" id="screen-tasks">
-      <div class="page-title">Tasks</div>
-      <div class="page-sub">Stay on top of what matters</div>
-      <div id="tasks-list"></div>
-    </div>
+  /* Safe areas */
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
 
-    <!-- ══ FOCUS TIMER ══ -->
-    <div class="screen" id="screen-timer">
-      <div class="page-title">Focus</div>
-      <div class="page-sub">Deep work, earned rest</div>
-      <div class="timer-wrap">
-        <div class="session-tabs">
-          <button class="session-tab active" onclick="setSession('Focus',25)">25 min</button>
-          <button class="session-tab" onclick="setSession('Short Break',5)">5 min</button>
-          <button class="session-tab" onclick="setSession('Long Break',15)">15 min</button>
-          <button class="session-tab" id="custom-tab" onclick="openCustomTimer()">Custom</button>
-        </div>
+  /* Fonts */
+  --font-display: 'Syne', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+}
 
-        <div class="timer-ring-wrap">
-          <div class="timer-ring-bg-track"></div>
-          <svg class="ring-svg" viewBox="0 0 230 230">
-            <circle class="timer-ring-bg" cx="115" cy="115" r="100"/>
-            <circle class="timer-ring-fill" id="ring-fill" cx="115" cy="115" r="100"
-              stroke="#3B82F6" stroke-dasharray="628.3" stroke-dashoffset="0"/>
-          </svg>
-          <div class="timer-center">
-            <svg id="timer-mascot" width="44" height="44" viewBox="0 0 80 80" fill="none" style="margin-bottom:4px">
-              <circle cx="40" cy="38" r="24" fill="url(#tg)"/>
-              <circle cx="33" cy="34" r="5" fill="white" opacity="0.95"/>
-              <circle cx="47" cy="34" r="5" fill="white" opacity="0.95"/>
-              <circle cx="34" cy="35" r="2.5" fill="#0F1120"/>
-              <circle cx="48" cy="35" r="2.5" fill="#0F1120"/>
-              <path id="timer-mouth" d="M34 43 Q40 48 46 43" stroke="white" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.9"/>
-              <defs>
-                <linearGradient id="tg" x1="16" y1="14" x2="64" y2="62" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stop-color="#2DD4BF"/>
-                  <stop offset="100%" stop-color="#3B82F6"/>
-                </linearGradient>
-              </defs>
-            </svg>
-            <div class="timer-time" id="timer-display">25:00</div>
-            <div class="timer-label" id="session-label">Focus</div>
-          </div>
-        </div>
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+::-webkit-scrollbar { display: none; }
+input, select, textarea { font-size: 16px !important; }
 
-        <div class="timer-controls">
-          <button class="ctrl-btn" onclick="resetTimer()" title="Reset">↺</button>
-          <button class="play-btn" id="play-btn" onclick="toggleTimer()">▶</button>
-          <button class="ctrl-btn" onclick="skipTimer()" title="Skip">⏭</button>
-        </div>
+/* ── BASE ── */
+html { color-scheme: dark; }
 
-        <div class="section-label" style="width:100%;margin-top:30px">Today's Sessions</div>
-        <div id="session-history" style="width:100%"></div>
-      </div>
-    </div>
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--t1);
+  margin: 0;
+  padding: 0;
+  /* Ambient background gradient mesh */
+  background-image:
+    radial-gradient(ellipse 60% 40% at 15% 10%, rgba(59,130,246,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 35% at 85% 90%, rgba(168,85,247,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(45,212,191,0.04) 0%, transparent 70%);
+}
 
-    <!-- ══ JOURNAL ══ -->
-    <div class="screen" id="screen-notes">
-      <div class="page-title">Journal</div>
-      <div class="page-sub">Your thoughts, tracked over time</div>
-      <button class="new-note-btn" onclick="openNewNote()">+ New Entry</button>
-      <div id="notes-list"></div>
-    </div>
+/* ── APP SHELL ── */
+#app {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
 
-    <!-- ══ AI ══ -->
-    <div class="screen" id="screen-ai">
-      <div class="chat-wrap">
-        <div class="chat-header">
-          <div class="page-title">AI Assistant</div>
-          <div class="page-sub">Powered by Claude · Always in your corner</div>
-          <div class="api-banner" id="api-banner">
-            <strong>🔑 Enter your Claude API key to enable AI</strong><br>
-            Get a free key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a>
-            <div class="key-row">
-              <input class="key-input" type="password" id="api-key-input" placeholder="sk-ant-...">
-              <button class="key-save" onclick="saveApiKey()">Save</button>
-            </div>
-          </div>
-        </div>
-        <div class="chat-messages" id="chat-messages"></div>
-        <div class="chat-input-row">
-          <textarea class="chat-input" id="chat-input" placeholder="Ask me anything..." rows="1"
-            onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"
-            oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
-          <button class="send-btn" onclick="sendChat()">↑</button>
-        </div>
-      </div>
-    </div>
+/* ── BOTTOM TAB BAR ── */
+.tab-bar {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background: rgba(15,17,32,0.96);
+  backdrop-filter: saturate(180%) blur(24px);
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+  border-top: 1px solid var(--b1);
+  padding: 10px 0 env(safe-area-inset-bottom, 6px);
+}
 
-  </div><!-- /app-content -->
+.tab-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  color: var(--t3);
+  font-family: var(--font-body);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  padding: 4px 2px;
+  transition: color 0.2s;
+}
 
-  <!-- ══ TAB BAR ══ -->
-  <nav class="tab-bar">
-    <button class="tab-btn active" onclick="showTab('dashboard',this)">
-      <div class="tab-icon">⬡</div>Today
-    </button>
-    <button class="tab-btn" onclick="showTab('habits',this)">
-      <div class="tab-icon">✦</div>Habits
-    </button>
-    <button class="tab-btn" onclick="showTab('tasks',this)">
-      <div class="tab-icon">◈</div>Tasks
-    </button>
-    <button class="tab-btn" onclick="showTab('timer',this)">
-      <div class="tab-icon">◎</div>Focus
-    </button>
-    <button class="tab-btn" onclick="showTab('notes',this)">
-      <div class="tab-icon">⌘</div>Journal
-    </button>
-    <button class="tab-btn" onclick="showTab('ai',this)">
-      <div class="tab-icon">✧</div>AI
-    </button>
-  </nav>
+.tab-icon {
+  width: 40px;
+  height: 32px;
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
 
-  <button class="fab" id="fab" onclick="openAdd()">+</button>
+/* Active tab indicator pill */
+.tab-btn.active { color: var(--blue); }
+.tab-btn.active .tab-icon {
+  background: rgba(59,130,246,0.15);
+  transform: translateY(-3px) scale(1.08);
+}
+.tab-btn.active .tab-icon::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%; transform: translateX(-50%);
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--blue);
+  box-shadow: 0 0 6px var(--blue-glow);
+}
 
-</div><!-- /app -->
+/* ── SCREEN CONTAINER ── */
+.app-content {
+  flex: 1;
+  overflow: hidden;
+  padding-top: var(--sat);
+  padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+}
 
-<!-- ════ MODALS ════ -->
+.screen {
+  display: none;
+  height: 100%;
+  overflow-y: auto;
+  padding: 24px 18px 120px;
+  animation: screenIn 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.screen.active { display: block; }
 
-<!-- ADD HABIT -->
-<div class="modal-overlay" id="modal-habit">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title">New Habit ✦</div>
-    <div class="form-group">
-      <label class="form-label">Habit name</label>
-      <input class="form-input" id="h-name" placeholder="e.g. Morning run">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Pick an emoji</label>
-      <div class="emoji-row" id="emoji-row"></div>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Frequency</label>
-      <select class="form-select" id="h-freq">
-        <option>Daily</option><option>Weekdays</option><option>Weekly</option>
-      </select>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeModals()">Cancel</button>
-      <button class="btn btn-primary" onclick="addHabit()">Add Habit</button>
-    </div>
-  </div>
-</div>
+@keyframes screenIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
-<!-- ADD TASK -->
-<div class="modal-overlay" id="modal-task">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title">New Task ◈</div>
-    <div class="form-group">
-      <label class="form-label">Task title</label>
-      <input class="form-input" id="t-name" placeholder="e.g. Send weekly report">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Priority</label>
-      <select class="form-select" id="t-priority">
-        <option value="low">Low</option>
-        <option value="medium" selected>Medium</option>
-        <option value="high">High</option>
-        <option value="urgent">Urgent</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Due date (optional)</label>
-      <input class="form-input" type="date" id="t-due">
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeModals()">Cancel</button>
-      <button class="btn btn-primary" onclick="addTask()">Add Task</button>
-    </div>
-  </div>
-</div>
+/* ── TYPOGRAPHY ── */
+.page-title {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--t1);
+  letter-spacing: -0.3px;
+  line-height: 1.1;
+  font-stretch: normal;
+}
+.page-sub {
+  font-size: 13px;
+  color: var(--t3);
+  font-weight: 500;
+  margin-top: 5px;
+  margin-bottom: 24px;
+  letter-spacing: normal;
+}
+.section-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  color: var(--t3);
+  margin: 26px 0 12px;
+}
 
-<!-- EDIT TASK -->
-<div class="modal-overlay" id="modal-edit-task">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title">Edit Task ✏️</div>
-    <input type="hidden" id="edit-task-index">
-    <div class="form-group">
-      <label class="form-label">Task title</label>
-      <input class="form-input" id="edit-t-name" placeholder="Task title">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Priority</label>
-      <select class="form-select" id="edit-t-priority">
-        <option value="low">Low</option>
-        <option value="medium">Medium</option>
-        <option value="high">High</option>
-        <option value="urgent">Urgent</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Due date (optional)</label>
-      <input class="form-input" type="date" id="edit-t-due">
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeModals()">Cancel</button>
-      <button class="btn btn-danger" onclick="deleteTask()">Delete</button>
-      <button class="btn btn-primary" onclick="saveEditTask()">Save</button>
-    </div>
-  </div>
-</div>
+/* ── LOGO ROW ── */
+.logo-row {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 24px;
+}
+.logo-mark {
+  width: 40px; height: 40px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #2DD4BF 0%, #3B82F6 60%, #A855F7 100%);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 18px var(--blue-glow);
+  flex-shrink: 0;
+  font-size: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.logo-mark::after {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%);
+}
+.logo-name {
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 800;
+  color: var(--t1);
+  letter-spacing: -0.2px;
+  font-stretch: normal;
+}
+.logo-name em {
+  font-style: normal;
+  background: linear-gradient(90deg, var(--blue), var(--teal));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
-<!-- CUSTOM TIMER -->
-<div class="modal-overlay" id="modal-custom-timer">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title">Custom Timer ◎</div>
-    <div class="form-group">
-      <label class="form-label">Duration (minutes, 1–180)</label>
-      <input class="form-input" type="number" id="custom-mins" placeholder="e.g. 45" min="1" max="180">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Label (optional)</label>
-      <input class="form-input" id="custom-label" placeholder="e.g. Deep Read">
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeModals()">Cancel</button>
-      <button class="btn btn-primary" onclick="applyCustomTimer()">Start Timer</button>
-    </div>
-  </div>
-</div>
+/* ── HERO CARD (Dashboard) ── */
+.hero-card {
+  background: linear-gradient(135deg, #1E3A8A 0%, #1D4ED8 40%, #0EA5E9 100%);
+  border-radius: var(--r-xl);
+  padding: 24px 20px 20px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 8px 40px rgba(30,58,138,0.5), 0 0 0 1px rgba(255,255,255,0.05) inset;
+}
+/* Glossy orbs */
+.hero-card::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -30px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+}
+.hero-card::after {
+  content: '';
+  position: absolute;
+  bottom: -40px; left: 20px;
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+.hero-greeting {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.2px;
+  position: relative; z-index: 1;
+}
+.hero-date {
+  font-size: 13px;
+  color: rgba(255,255,255,0.65);
+  font-weight: 500;
+  margin-top: 3px;
+  position: relative; z-index: 1;
+}
+.hero-mascot {
+  position: absolute;
+  right: 16px; bottom: 0;
+  z-index: 1;
+}
 
-<!-- NEW / EDIT NOTE -->
-<div class="modal-overlay" id="modal-note">
-  <div class="modal modal-tall">
-    <div class="modal-handle"></div>
-    <div class="modal-title" id="note-modal-title">New Entry ⌘</div>
-    <input type="hidden" id="note-index">
-    <div class="form-group">
-      <label class="form-label">Title</label>
-      <input class="form-input" id="note-title" placeholder="What's on your mind?">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Entry</label>
-      <textarea class="form-input note-textarea" id="note-body" placeholder="Write freely..."></textarea>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Mood</label>
-      <div class="mood-row" id="mood-row"></div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeModals()">Cancel</button>
-      <button class="btn btn-danger" id="note-delete-btn" onclick="deleteNote()" style="display:none">Delete</button>
-      <button class="btn btn-primary" onclick="saveNote()">Save</button>
-    </div>
-  </div>
-</div>
+/* ── STAT CARDS ── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.stat-card {
+  background: var(--surface-2);
+  border: 1px solid var(--b1);
+  border-radius: var(--r-lg);
+  padding: 14px 10px 12px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--sh-sm);
+}
+.stat-glow {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+}
+.stat-card:nth-child(1) .stat-glow { background: linear-gradient(90deg, var(--teal), var(--blue)); }
+.stat-card:nth-child(2) .stat-glow { background: linear-gradient(90deg, var(--blue), var(--purple)); }
+.stat-card:nth-child(3) .stat-glow { background: linear-gradient(90deg, var(--purple), var(--amber)); }
+.stat-icon { font-size: 20px; margin-bottom: 6px; }
+.stat-val {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--t1);
+  letter-spacing: -0.2px;
+  font-stretch: normal;
+}
+.stat-lbl {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--t3);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 2px;
+}
 
-<script src="app.js"></script>
-</body>
-</html>
+/* ── HABIT CHIPS (horizontal scroll) ── */
+.habit-scroll {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  -webkit-overflow-scrolling: touch;
+}
+.habit-chip {
+  flex-shrink: 0;
+  display: flex; flex-direction: column; align-items: center; gap: 7px;
+  padding: 14px 14px 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--b1);
+  border-radius: var(--r-lg);
+  cursor: pointer;
+  min-width: 76px;
+  transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: var(--sh-sm);
+}
+.habit-chip.done {
+  background: rgba(45,212,191,0.1);
+  border-color: rgba(45,212,191,0.35);
+  box-shadow: 0 0 20px rgba(45,212,191,0.12);
+}
+.habit-chip:active { transform: scale(0.93); }
+.habit-chip-emoji { font-size: 26px; }
+.habit-chip-name { font-size: 10px; color: var(--t3); font-weight: 600; text-align: center; line-height: 1.2; }
+.habit-chip-check { font-size: 13px; color: var(--teal); min-height: 16px; }
+
+/* ── HABIT LIST ITEMS ── */
+.habit-item {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--b1);
+  border-radius: var(--r-lg);
+  padding: 16px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  box-shadow: var(--sh-sm);
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.habit-item::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--teal), var(--blue));
+  border-radius: 3px 0 0 3px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.habit-item.done::before { opacity: 1; }
+.habit-item.done {
+  background: rgba(45,212,191,0.07);
+  border-color: rgba(45,212,191,0.2);
+}
+.habit-item:active { transform: scale(0.985); }
+.habit-emoji { font-size: 28px; flex-shrink: 0; }
+.habit-info { flex: 1; }
+.habit-name { font-weight: 700; font-size: 15px; color: var(--t1); }
+.habit-meta { font-size: 12px; color: var(--t3); font-weight: 500; margin-top: 3px; }
+.habit-check {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 2px solid var(--b1);
+  background: var(--surface-3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; color: transparent;
+  transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  flex-shrink: 0;
+}
+.habit-item.done .habit-check {
+  background: var(--teal); border-color: var(--teal);
+  color: #0A0B14;
+  box-shadow: 0 0 16px var(--teal-glow);
+  font-size: 12px;
+}
+
+/* ── TASK ITEMS ── */
+.task-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--b1);
+  border-radius: var(--r-lg);
+  padding: 16px;
+  margin-bottom: 10px;
+  box-shadow: var(--sh-sm);
+  transition: opacity 0.2s;
+}
+.task-item.done { opacity: 0.38; }
+.task-check-wrap {
+  width: 24px; height: 24px; border-radius: 7px;
+  border: 2px solid var(--b1);
+  background: var(--surface-3);
+  flex-shrink: 0; cursor: pointer; margin-top: 2px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; color: transparent;
+  transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+}
+.task-item.done .task-check-wrap {
+  background: var(--blue); border-color: var(--blue); color: white;
+  box-shadow: 0 0 14px var(--blue-glow);
+}
+.task-body { flex: 1; min-width: 0; }
+.task-title { font-weight: 600; font-size: 15px; color: var(--t1); }
+.task-item.done .task-title { text-decoration: line-through; color: var(--t3); }
+.task-meta { font-size: 12px; color: var(--t3); font-weight: 500; margin-top: 5px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.priority-pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 9px; border-radius: 20px;
+  font-size: 11px; font-weight: 700;
+  border: 1px solid;
+}
+.task-edit-btn { background: none; border: none; color: var(--t3); font-size: 15px; cursor: pointer; padding: 4px; flex-shrink: 0; opacity: 0.7; }
+
+/* ── FOCUS TIMER ── */
+.timer-wrap { display: flex; flex-direction: column; align-items: center; }
+
+.session-tabs {
+  display: flex; gap: 6px;
+  background: var(--surface-2);
+  border: 1px solid var(--b1);
+  border-radius: var(--r-lg);
+  padding: 5px;
+  margin-bottom: 32px;
+  box-shadow: var(--sh-sm);
+  flex-wrap: wrap; justify-content: center;
+}
+.session-tab {
+  padding: 9px 15px; border-radius: var(--r-md);
+  border: none; background: none;
+  color: var(--t3); font-family: var(--font-body);
+  font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+}
+.session-tab.active {
+  background: linear-gradient(135deg, var(--blue-b), var(--blue));
+  color: white;
+  box-shadow: 0 4px 16px var(--blue-glow);
+}
+
+.timer-ring-wrap {
+  position: relative;
+  width: 230px; height: 230px;
+  margin-bottom: 34px;
+}
+.timer-ring-bg-track {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background: var(--surface-2);
+  border: 1px solid var(--b1);
+  box-shadow: var(--sh-md), 0 0 0 12px rgba(59,130,246,0.03);
+}
+.ring-svg {
+  width: 100%; height: 100%;
+  transform: rotate(-90deg);
+  position: absolute; top: 0; left: 0;
+}
+.timer-ring-bg { fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 10; }
+.timer-ring-fill {
+  fill: none; stroke-width: 10; stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear;
+  filter: drop-shadow(0 0 10px var(--blue-glow));
+}
+.timer-center {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+}
+.timer-time {
+  font-family: var(--font-display);
+  font-size: 42px; font-weight: 800;
+  color: var(--t1); letter-spacing: -2px; line-height: 1;
+}
+.timer-label { font-size: 12px; color: var(--t3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; }
+
+.timer-controls { display: flex; align-items: center; gap: 22px; }
+.ctrl-btn {
+  width: 52px; height: 52px; border-radius: 50%;
+  border: 1px solid var(--b1);
+  background: var(--surface-2); color: var(--t2);
+  font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--sh-sm); transition: all 0.2s;
+}
+.ctrl-btn:active { transform: scale(0.9); }
+.play-btn {
+  width: 78px; height: 78px; border-radius: 50%; border: none;
+  background: linear-gradient(135deg, var(--blue-b), var(--blue));
+  color: white; font-size: 26px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 6px 28px var(--blue-glow), 0 0 0 10px rgba(59,130,246,0.08);
+  transition: transform 0.15s, box-shadow 0.2s;
+}
+.play-btn:active { transform: scale(0.93); box-shadow: 0 3px 14px var(--blue-glow); }
+
+.session-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; margin: 3px;
+  border: 1px solid;
+}
+
+/* ── JOURNAL ── */
+.new-note-btn {
+  width: 100%; padding: 15px;
+  background: linear-gradient(135deg, var(--blue-b), var(--blue));
+  color: white; border: none; border-radius: var(--r-lg);
+  font-family: var(--font-body); font-size: 15px; font-weight: 700;
+  cursor: pointer; margin-bottom: 20px;
+  box-shadow: 0 6px 24px var(--blue-glow);
+  letter-spacing: 0.01em;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.new-note-btn:active { transform: scale(0.97); box-shadow: 0 3px 12px var(--blue-glow); }
+
+.note-card {
+  background: var(--surface-2);
+  border: 1px solid var(--b1);
+  border-radius: var(--r-lg);
+  padding: 18px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative; overflow: hidden;
+  box-shadow: var(--sh-sm);
+}
+.note-card-accent {
+  position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: linear-gradient(180deg, var(--blue), var(--purple));
+  border-radius: 3px 0 0 3px;
+}
+.note-card:active { transform: scale(0.98); }
+.note-card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 5px; padding-left: 10px; }
+.note-card-title { font-weight: 700; font-size: 15px; color: var(--t1); flex: 1; }
+.note-card-mood { font-size: 22px; margin-left: 8px; }
+.note-card-date { font-size: 11px; color: var(--t3); font-weight: 500; margin-bottom: 8px; padding-left: 10px; }
+.note-card-preview { font-size: 13px; color: var(--t2); font-weight: 400; line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; padding-left: 10px; }
+
+.note-textarea { min-height: 140px; resize: none; line-height: 1.65; }
+.mood-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.mood-btn {
+  width: 44px; height: 44px; border-radius: 13px;
+  border: 1px solid var(--b1);
+  background: var(--surface-3); font-size: 21px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+}
+.mood-btn.selected {
+  border-color: rgba(59,130,246,0.6);
+  background: rgba(59,130,246,0.15);
+  transform: scale(1.12);
+  box-shadow: 0 0 14px var(--blue-glow);
+}
+
+/* ── AI CHAT ── */
+.chat-wrap { display: flex; flex-direction: column; height: calc(100dvh - 75px - var(--sat) - var(--sab)); }
+.chat-header { flex-shrink: 0; padding-bottom: 14px; }
+.chat-messages { flex: 1; overflow-y: auto; padding: 2px 0; display: flex; flex-direction: column; gap: 14px; }
+.msg { display: flex; gap: 9px; max-width: 90%; }
+.msg.user { align-self: flex-end; flex-direction: row-reverse; }
+.ai-avatar {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--teal), var(--blue));
+  box-shadow: 0 0 14px var(--blue-glow);
+  position: relative; overflow: hidden;
+}
+.ai-avatar::before { content:''; position:absolute; top:7px; left:7px; width:6px; height:6px; background:white; border-radius:50%; box-shadow:10px 0 0 white; }
+.ai-avatar::after  { content:''; position:absolute; top:10px; left:9px; width:3px; height:3px; background:#0d1117; border-radius:50%; box-shadow:10px 0 0 #0d1117; }
+.user-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--surface-3); border: 1px solid var(--b1); display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+.msg-bubble { padding: 12px 16px; border-radius: 20px; font-size: 14px; font-weight: 500; line-height: 1.55; }
+.msg.user .msg-bubble {
+  background: linear-gradient(135deg, var(--blue-b), var(--blue));
+  color: white; border-bottom-right-radius: 4px;
+  box-shadow: 0 4px 18px var(--blue-glow);
+}
+.msg.ai .msg-bubble {
+  background: var(--surface-2); border: 1px solid var(--b1);
+  color: var(--t1); border-bottom-left-radius: 4px;
+  box-shadow: var(--sh-sm);
+}
+.typing-dots span { display: inline-block; width: 6px; height: 6px; background: var(--t3); border-radius: 50%; margin: 0 2px; animation: tdot 1.2s infinite; }
+.typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes tdot { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-7px)} }
+
+.chat-input-row { flex-shrink: 0; display: flex; gap: 10px; padding-top: 12px; border-top: 1px solid var(--b1); }
+.chat-input {
+  flex: 1; background: var(--surface-2);
+  border: 1px solid var(--b1); border-radius: 22px;
+  padding: 12px 18px; color: var(--t1);
+  font-family: var(--font-body); font-weight: 500; outline: none;
+  resize: none; max-height: 100px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.chat-input::placeholder { color: var(--t3); }
+.chat-input:focus { border-color: rgba(59,130,246,0.5); box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+.send-btn {
+  width: 46px; height: 46px; border-radius: 50%; border: none;
+  background: linear-gradient(135deg, var(--blue-b), var(--blue));
+  color: white; font-size: 18px; cursor: pointer;
+  flex-shrink: 0; align-self: flex-end;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 14px var(--blue-glow);
+  transition: transform 0.15s;
+}
+.send-btn:active { transform: scale(0.9); }
+
+/* ── MODALS ── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(5,6,15,0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 100; display: none;
+  align-items: flex-end; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--surface-2);
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+  padding: 18px 22px calc(12px + env(safe-area-inset-bottom, 0px));
+  width: 100%; max-width: 500px;
+  animation: sheetUp 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  max-height: 92dvh; overflow-y: auto;
+  border-top: 1px solid var(--b1);
+  border-left: 1px solid var(--b1);
+  border-right: 1px solid var(--b1);
+  box-shadow: 0 -12px 60px rgba(0,0,0,0.6);
+}
+.modal-tall { max-height: 87dvh; }
+@keyframes sheetUp { from{transform:translateY(100%);opacity:0} to{transform:translateY(0);opacity:1} }
+.modal-handle { width: 38px; height: 4px; background: var(--b1); border-radius: 2px; margin: 0 auto 20px; }
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 800;
+  color: var(--t1); margin-bottom: 20px;
+  letter-spacing: -0.3px;
+}
+
+/* ── FORMS ── */
+.form-group { margin-bottom: 16px; }
+.form-label {
+  display: block; font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--t3); margin-bottom: 8px;
+}
+.form-input, .form-select {
+  width: 100%; background: var(--surface-3);
+  border: 1px solid var(--b1); border-radius: var(--r-md);
+  padding: 13px 16px; color: var(--t1);
+  font-family: var(--font-body); font-weight: 500; outline: none;
+  appearance: none; -webkit-appearance: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-input::placeholder { color: var(--t3); }
+.form-input:focus, .form-select:focus {
+  border-color: rgba(59,130,246,0.5);
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+}
+.form-select option { background: var(--surface-3); }
+
+.emoji-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.emoji-btn {
+  width: 44px; height: 44px; border-radius: 13px;
+  border: 1px solid var(--b1); background: var(--surface-3);
+  font-size: 20px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+}
+.emoji-btn.selected {
+  border-color: rgba(59,130,246,0.55);
+  background: rgba(59,130,246,0.15);
+  transform: scale(1.1);
+  box-shadow: 0 0 14px var(--blue-glow);
+}
+
+.modal-actions { display: flex; gap: 10px; margin-top: 22px; }
+.btn {
+  flex: 1; padding: 14px; border-radius: var(--r-md);
+  border: 1px solid var(--b1);
+  font-family: var(--font-body); font-size: 15px; font-weight: 700;
+  cursor: pointer; transition: all 0.18s;
+}
+.btn:active { transform: scale(0.96); }
+.btn-primary {
+  background: linear-gradient(135deg, var(--blue-b), var(--blue));
+  border-color: transparent; color: white;
+  box-shadow: 0 4px 18px var(--blue-glow);
+}
+.btn-secondary { background: var(--surface-3); color: var(--t2); }
+.btn-danger { background: rgba(244,63,94,0.12); color: var(--rose); border-color: rgba(244,63,94,0.3); }
+
+/* ── FAB ── */
+.fab {
+  position: fixed;
+  bottom: calc(90px + var(--sab));
+  right: 20px;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--blue-b), var(--blue));
+  border: none; color: white; font-size: 26px;
+  cursor: pointer;
+  box-shadow: 0 6px 26px var(--blue-glow), 0 0 0 8px rgba(59,130,246,0.1);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 10;
+  transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s;
+}
+.fab:active { transform: scale(0.88) rotate(45deg); box-shadow: 0 3px 12px var(--blue-glow); }
+.fab.hidden { display: none; }
+
+/* ── API BANNER ── */
+.api-banner {
+  background: rgba(245,158,11,0.08);
+  border: 1px solid rgba(245,158,11,0.25);
+  border-radius: var(--r-lg);
+  padding: 14px 16px;
+  margin-bottom: 6px;
+  font-size: 13px; font-weight: 500;
+  color: var(--t2); line-height: 1.55;
+}
+.api-banner strong { color: var(--amber); }
+.api-banner a { color: var(--blue); text-decoration: none; }
+.key-row { display: flex; gap: 8px; margin-top: 12px; }
+.key-input {
+  flex: 1; background: var(--surface-3);
+  border: 1px solid var(--b1); border-radius: var(--r-sm);
+  padding: 10px 14px; color: var(--t1);
+  font-family: var(--font-body); font-weight: 500; outline: none;
+}
+.key-save {
+  padding: 10px 18px; border-radius: var(--r-sm);
+  background: linear-gradient(135deg, var(--blue-b), var(--blue));
+  border: none; color: white;
+  font-family: var(--font-body); font-size: 13px; font-weight: 700;
+  cursor: pointer; white-space: nowrap;
+  box-shadow: 0 4px 12px var(--blue-glow);
+}
+
+/* ── EMPTY STATE ── */
+.empty-state { text-align: center; padding: 52px 20px; }
+.empty-mascot { font-size: 52px; margin-bottom: 14px; }
+.empty-title {
+  font-family: var(--font-display);
+  font-size: 18px; font-weight: 800;
+  color: var(--t1); margin-bottom: 6px;
+}
+.empty-sub { font-size: 13px; font-weight: 500; color: var(--t3); }
+
+
+/* ════════════════════════════════════════
+   ONBOARDING
+════════════════════════════════════════ */
+
+#onboarding {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse 70% 50% at 20% 5%,  rgba(59,130,246,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 95%, rgba(168,85,247,0.10) 0%, transparent 60%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: calc(20px + env(safe-area-inset-top,0px)) 24px calc(30px + env(safe-area-inset-bottom,0px));
+  overflow-y: auto;
+}
+
+/* Progress dots */
+.ob-progress {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 36px;
+  align-self: center;
+}
+.ob-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--surface-3);
+  border: 1px solid var(--b1);
+  transition: all 0.3s;
+}
+.ob-dot.active {
+  background: var(--blue);
+  width: 24px;
+  border-radius: 4px;
+  box-shadow: 0 0 8px var(--blue-glow);
+}
+.ob-dot.done { background: var(--teal); border-color: var(--teal); }
+
+/* Steps */
+.ob-step {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 380px;
+  animation: screenIn 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+.ob-step.active { display: flex; }
+
+.ob-mascot { margin-bottom: 24px; }
+.ob-celebrate { font-size: 72px; margin-bottom: 16px; animation: bounce 1s infinite alternate; }
+@keyframes bounce { from{transform:translateY(0)} to{transform:translateY(-12px)} }
+
+.ob-title {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--t1);
+  text-align: center;
+  line-height: 1.15;
+  margin-bottom: 10px;
+  letter-spacing: -0.3px;
+}
+.ob-brand {
+  background: linear-gradient(90deg, var(--blue), var(--teal));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.ob-subtitle {
+  font-size: 14px;
+  color: var(--t3);
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+.ob-optional { color: var(--t3); font-weight: 400; font-size: 10px; text-transform: none; letter-spacing: 0; }
+
+.ob-form { width: 100%; margin-bottom: 8px; }
+
+.ob-btn-primary {
+  width: 100%; padding: 16px;
+  background: linear-gradient(135deg, var(--blue-b), var(--blue));
+  color: white; border: none; border-radius: var(--r-lg);
+  font-family: var(--font-body); font-size: 16px; font-weight: 700;
+  cursor: pointer; margin-top: 16px;
+  box-shadow: 0 6px 24px var(--blue-glow);
+  transition: transform 0.15s, box-shadow 0.15s;
+  letter-spacing: 0.01em;
+}
+.ob-btn-primary:active { transform: scale(0.97); box-shadow: 0 3px 12px var(--blue-glow); }
+
+.ob-nav {
+  display: flex; gap: 12px; width: 100%; margin-top: 16px;
+}
+.ob-btn-ghost {
+  flex: 0 0 auto; padding: 16px 20px;
+  background: var(--surface-2); color: var(--t2);
+  border: 1px solid var(--b1); border-radius: var(--r-lg);
+  font-family: var(--font-body); font-size: 15px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+}
+.ob-nav .ob-btn-primary { margin-top: 0; flex: 1; }
+
+/* Avatar grid */
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 8px;
+}
+.avatar-opt {
+  aspect-ratio: 1;
+  border-radius: 16px;
+  border: 2px solid var(--b1);
+  background: var(--surface-2);
+  font-size: 26px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+}
+.avatar-opt.selected {
+  border-color: var(--blue);
+  background: rgba(59,130,246,0.18);
+  transform: scale(1.12);
+  box-shadow: 0 0 16px var(--blue-glow);
+}
+
+/* Goal grid */
+.goal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 8px;
+}
+.goal-opt {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 16px;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--b1);
+  background: var(--surface-2);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+.goal-opt.selected {
+  border-color: rgba(59,130,246,0.5);
+  background: rgba(59,130,246,0.12);
+  box-shadow: 0 0 14px rgba(59,130,246,0.15);
+}
+.goal-icon { font-size: 22px; flex-shrink: 0; }
+.goal-label { font-size: 13px; font-weight: 600; color: var(--t1); }
+.goal-opt.selected .goal-label { color: var(--blue); }
+
+/* Step 4 checklist */
+.ob-checklist {
+  width: 100%;
+  background: var(--surface-2);
+  border: 1px solid var(--b1);
+  border-radius: var(--r-lg);
+  padding: 18px 20px;
+  margin-bottom: 8px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.ob-check-item {
+  font-size: 14px; font-weight: 500; color: var(--t2);
+  display: flex; align-items: center; gap: 8px;
+}
+
+/* Shake animation for validation */
+@keyframes shake {
+  0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-6px)} 80%{transform:translateX(6px)}
+}
+.shake { animation: shake 0.5s ease; border-color: var(--rose) !important; }
+
+
+/* ════════════════════════════════════════
+   DASHBOARD ADDITIONS
+════════════════════════════════════════ */
+
+/* Birthday banner */
+.birthday-banner {
+  background: linear-gradient(135deg, #7C3AED, #DB2777, #F59E0B);
+  border-radius: var(--r-xl);
+  padding: 18px 20px;
+  margin-bottom: 14px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(124,58,237,0.4);
+  animation: pulse-glow 2s infinite alternate;
+}
+@keyframes pulse-glow {
+  from { box-shadow: 0 8px 32px rgba(124,58,237,0.4); }
+  to   { box-shadow: 0 8px 48px rgba(219,39,119,0.5); }
+}
+.bday-confetti { font-size: 24px; letter-spacing: 4px; margin-bottom: 8px; }
+.bday-text { font-size: 14px; font-weight: 600; color: white; line-height: 1.5; }
+
+/* Affirmation card */
+.affirmation-card {
+  background: var(--surface-2);
+  border: 1px solid rgba(59,130,246,0.2);
+  border-radius: var(--r-lg);
+  padding: 16px 18px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.affirmation-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--blue), var(--teal));
+}
+.affirmation-label {
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--blue); margin-bottom: 8px;
+}
+.affirmation-text {
+  font-size: 14px; font-weight: 500;
+  color: var(--t1); line-height: 1.6;
+  font-style: italic;
+}
+
+
+/* ════════════════════════════════════════
+   PROFILE SCREEN
+════════════════════════════════════════ */
+
+.profile-hero {
+  background: var(--surface-2);
+  border: 1px solid var(--b1);
+  border-radius: var(--r-xl);
+  padding: 22px 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 4px;
+  position: relative;
+  box-shadow: var(--sh-md);
+}
+.profile-avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+.profile-avatar {
+  width: 70px; height: 70px;
+  border-radius: 22px;
+  background: var(--surface-3);
+  border: 2px solid var(--b1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 38px;
+}
+.profile-avatar-ring {
+  position: absolute; inset: -4px;
+  border-radius: 26px;
+  background: linear-gradient(135deg, var(--blue), var(--teal), var(--purple));
+  z-index: -1;
+  opacity: 0.7;
+}
+.profile-info { flex: 1; min-width: 0; }
+.profile-name {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 800;
+  color: var(--t1); letter-spacing: -0.2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.profile-meta { font-size: 12px; color: var(--t3); font-weight: 500; margin-top: 3px; }
+.profile-bday { font-size: 12px; color: var(--teal); font-weight: 500; margin-top: 2px; }
+.profile-edit-btn {
+  background: var(--surface-3); border: 1px solid var(--b1);
+  border-radius: var(--r-sm); padding: 8px 10px;
+  font-size: 16px; cursor: pointer; flex-shrink: 0;
+  align-self: flex-start;
+}
+
+/* Profile stats */
+.profile-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 4px;
+}
+.profile-stat {
+  background: var(--surface-2);
+  border: 1px solid var(--b1);
+  border-radius: var(--r-lg);
+  padding: 16px 10px;
+  text-align: center;
+  box-shadow: var(--sh-sm);
+}
+.ps-val {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 800;
+  color: var(--blue); letter-spacing: -0.3px;
+}
+.ps-lbl {
+  font-size: 10px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--t3); margin-top: 4px;
+}
+
+/* Goals chips */
+.profile-goals {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 4px;
+}
+.profile-goal-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 14px; border-radius: 20px;
+  background: rgba(59,130,246,0.12);
+  border: 1px solid rgba(59,130,246,0.3);
+  color: var(--blue); font-size: 13px; font-weight: 600;
+}
+
+/* Tab bar — 7 items need smaller text */
+.tab-bar { justify-content: space-around; }
+.tab-btn { font-size: 8.5px; }
