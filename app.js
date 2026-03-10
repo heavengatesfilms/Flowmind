@@ -19,6 +19,12 @@ if (!(‘apiKey’   in state)) state.apiKey   = ‘’;
 
 const save = () => localStorage.setItem(‘flowmind_v3’, JSON.stringify(state));
 
+// ── UTILS (defined early so available everywhere) ──
+function todayStr() { return new Date().toISOString().split(‘T’)[0]; }
+function esc(str) { return String(str).replace(/&/g,’&’).replace(/</g,’<’).replace(/>/g,’>’).replace(/”/g,’"’); }
+function escHTML(str) { return String(str).replace(/&/g,’&’).replace(/</g,’<’).replace(/>/g,’>’).replace(/\n/g,’<br>’); }
+// emptyState defined at top
+
 // ── CONSTANTS ──
 const EMOJIS = [‘⭐️’,‘💪’,‘📚’,‘🧘’,‘🏃’,‘💧’,‘🍎’,‘✍️’,‘🎯’,‘🛌’,‘🧠’,‘🎨’,‘🚴’,‘🎵’,‘🌿’,‘🏋️’];
 const MOODS  = [‘😄’,‘😊’,‘😐’,‘😔’,‘😤’,‘😴’,‘🤩’,‘😰’];
@@ -417,11 +423,8 @@ document.querySelectorAll(’.modal-overlay’).forEach(m => m.classList.remove(
 document.addEventListener(‘click’, e => { if (e.target.classList.contains(‘modal-overlay’)) closeModals(); });
 
 // ── UTILS ──
-function todayStr() { return new Date().toISOString().split(‘T’)[0]; }
 function renderAll() { renderHabits(); renderTasks(); renderDashboard(); renderNotes(); }
-function esc(str) {
-return String(str).replace(/&/g,’&’).replace(/</g,’<’).replace(/>/g,’>’).replace(/”/g,’"’);
-}
+// esc defined at top
 
 // ════════════════════════════════════════
 //  HABITS
@@ -757,10 +760,6 @@ const c = document.getElementById(‘chat-messages’);
 setTimeout(() => c.scrollTop = c.scrollHeight, 50);
 }
 
-function escHTML(str) {
-return String(str).replace(/&/g,’&’).replace(/</g,’<’).replace(/>/g,’>’).replace(/\n/g,’<br>’);
-}
+// escHTML defined at top
 
-function emptyState(icon, title, sub) {
-return `<div class="empty-state"><div class="empty-mascot">${icon}</div><div class="empty-title">${title}</div><div class="empty-sub">${sub}</div></div>`;
-}
+// emptyState defined at top
