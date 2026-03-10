@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -12,37 +13,25 @@
 </head>
 <body>
 
-<!-- ════════════════════════════════════
-     ONBOARDING (shown first time only)
-════════════════════════════════════ -->
-<div id="onboarding">
+<!-- ════ ONBOARDING ════ -->
 
-  <!-- Progress dots -->
+<div id="onboarding">
   <div class="ob-progress">
-    <div class="ob-dot active" id="dot-1"></div>
-    <div class="ob-dot" id="dot-2"></div>
-    <div class="ob-dot" id="dot-3"></div>
-    <div class="ob-dot" id="dot-4"></div>
+    <div class="ob-dot active"></div><div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot"></div>
   </div>
 
-  <!-- Step 1: Welcome + Name -->
   <div class="ob-step active" id="ob-step-1">
     <div class="ob-mascot">
       <svg width="100" height="100" viewBox="0 0 80 80" fill="none">
         <circle cx="40" cy="38" r="30" fill="url(#og1)"/>
         <circle cx="31" cy="33" r="6" fill="white" opacity="0.95"/>
         <circle cx="49" cy="33" r="6" fill="white" opacity="0.95"/>
-        <circle cx="32" cy="34" r="3" fill="#0F1120"/>
-        <circle cx="50" cy="34" r="3" fill="#0F1120"/>
-        <circle cx="33" cy="33" r="1.2" fill="white"/>
-        <circle cx="51" cy="33" r="1.2" fill="white"/>
+        <circle cx="32" cy="34" r="3" fill="#0F1120"/><circle cx="50" cy="34" r="3" fill="#0F1120"/>
+        <circle cx="33" cy="33" r="1.2" fill="white"/><circle cx="51" cy="33" r="1.2" fill="white"/>
         <path d="M32 44 Q40 51 48 44" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-        <defs>
-          <linearGradient id="og1" x1="10" y1="8" x2="70" y2="68" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stop-color="#2DD4BF"/>
-            <stop offset="100%" stop-color="#3B82F6"/>
-          </linearGradient>
-        </defs>
+        <defs><linearGradient id="og1" x1="10" y1="8" x2="70" y2="68" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#2DD4BF"/><stop offset="100%" stop-color="#3B82F6"/>
+        </linearGradient></defs>
       </svg>
     </div>
     <div class="ob-title">Welcome to<br><span class="ob-brand">Flowmind</span></div>
@@ -60,7 +49,6 @@
     <button class="ob-btn-primary" onclick="obNext()">Let's Go →</button>
   </div>
 
-  <!-- Step 2: Pick Avatar -->
   <div class="ob-step" id="ob-step-2">
     <div class="ob-title">Choose your<br><span class="ob-brand">avatar</span></div>
     <div class="ob-subtitle">Pick an emoji that represents you.</div>
@@ -71,10 +59,9 @@
     </div>
   </div>
 
-  <!-- Step 3: Goals -->
   <div class="ob-step" id="ob-step-3">
     <div class="ob-title">What are your<br><span class="ob-brand">goals?</span></div>
-    <div class="ob-subtitle">Pick up to 4 that matter most to you.</div>
+    <div class="ob-subtitle">Pick up to 4 that matter most.</div>
     <div class="goal-grid" id="goal-grid"></div>
     <div class="ob-nav">
       <button class="ob-btn-ghost" onclick="obBack()">← Back</button>
@@ -82,283 +69,212 @@
     </div>
   </div>
 
-  <!-- Step 4: All set -->
   <div class="ob-step" id="ob-step-4">
     <div class="ob-celebrate">🎉</div>
     <div class="ob-title">You're all set,<br><span class="ob-brand" id="ob-final-name">friend</span>!</div>
     <div class="ob-subtitle">Your journey to a more focused,<br>intentional life starts right now.</div>
     <div class="ob-checklist">
       <div class="ob-check-item">✦ Personalised daily greetings</div>
-      <div class="ob-check-item">◎ Focus timer & habit tracking</div>
+      <div class="ob-check-item">◎ Focus timer with notifications</div>
       <div class="ob-check-item">✧ Daily affirmations just for you</div>
       <div class="ob-check-item">🎂 Birthday celebrations</div>
-      <div class="ob-check-item">✨ AI assistant powered by Claude</div>
+      <div class="ob-check-item">✨ AI assistant that controls the app</div>
     </div>
     <button class="ob-btn-primary" onclick="finishOnboarding()">Start my journey →</button>
   </div>
+</div>
 
-</div><!-- /onboarding -->
+<!-- ════ MAIN APP ════ -->
 
-
-<!-- ════════════════════════════════════
-     MAIN APP
-════════════════════════════════════ -->
 <div id="app" style="display:none">
   <div class="app-content">
 
-    <!-- ══ DASHBOARD ══ -->
-    <div class="screen active" id="screen-dashboard">
-      <div class="logo-row">
-        <div class="logo-mark">🧠</div>
-        <div class="logo-name">Flow<em>mind</em></div>
-      </div>
+```
+<!-- DASHBOARD -->
+<div class="screen active" id="screen-dashboard">
+  <div class="logo-row">
+    <div class="logo-mark">🧠</div>
+    <div class="logo-name">Flow<em>mind</em></div>
+  </div>
+  <div class="birthday-banner" id="birthday-banner" style="display:none">
+    <div class="bday-confetti">🎂🎉🎊🎈🎁✨</div>
+    <div class="bday-text">Happy Birthday! Wishing you an amazing day! 🥳</div>
+  </div>
+  <div class="hero-card">
+    <div class="hero-greeting" id="greeting">Good morning!</div>
+    <div class="hero-date" id="today-date"></div>
+    <div class="hero-mascot"><div id="hero-avatar" style="font-size:52px;line-height:1">🧠</div></div>
+  </div>
+  <div class="affirmation-card">
+    <div class="affirmation-label">✦ Today's Affirmation</div>
+    <div class="affirmation-text" id="daily-affirmation"></div>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-icon">✦</div><div class="stat-val" id="stat-habits">0/0</div><div class="stat-lbl">Habits</div></div>
+    <div class="stat-card"><div class="stat-icon">◈</div><div class="stat-val" id="stat-tasks">0</div><div class="stat-lbl">Tasks Left</div></div>
+    <div class="stat-card"><div class="stat-icon">◎</div><div class="stat-val" id="stat-focus">0m</div><div class="stat-lbl">Focus</div></div>
+  </div>
+  <div class="section-label">Today's Habits</div>
+  <div class="habit-scroll" id="dash-habits"></div>
+  <div class="section-label">Priority Tasks</div>
+  <div id="dash-tasks"></div>
+</div>
 
-      <!-- Birthday banner (hidden by default) -->
-      <div class="birthday-banner" id="birthday-banner" style="display:none">
-        <div class="bday-confetti">🎂🎉🎊🎈🎁✨</div>
-        <div class="bday-text">Happy Birthday! Wishing you an amazing day filled with joy and accomplishment! 🥳</div>
-      </div>
+<!-- HABITS -->
+<div class="screen" id="screen-habits">
+  <div class="page-title">Habits</div>
+  <div class="page-sub">Build streaks, one day at a time</div>
+  <div id="habits-list"></div>
+</div>
 
-      <div class="hero-card">
-        <div class="hero-greeting" id="greeting">Good morning!</div>
-        <div class="hero-date" id="today-date"></div>
-        <div class="hero-mascot">
-          <div id="hero-avatar" style="font-size:52px;line-height:1">🧠</div>
-        </div>
-      </div>
+<!-- TASKS -->
+<div class="screen" id="screen-tasks">
+  <div class="page-title">Tasks</div>
+  <div class="page-sub">Stay on top of what matters</div>
+  <div id="tasks-list"></div>
+</div>
 
-      <!-- Daily Affirmation -->
-      <div class="affirmation-card">
-        <div class="affirmation-label">✦ Today's Affirmation</div>
-        <div class="affirmation-text" id="daily-affirmation">You have everything you need to make today incredible.</div>
-      </div>
-
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-glow"></div>
-          <div class="stat-icon">✦</div>
-          <div class="stat-val" id="stat-habits">0/0</div>
-          <div class="stat-lbl">Habits</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-glow"></div>
-          <div class="stat-icon">◈</div>
-          <div class="stat-val" id="stat-tasks">0</div>
-          <div class="stat-lbl">Tasks Left</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-glow"></div>
-          <div class="stat-icon">◎</div>
-          <div class="stat-val" id="stat-focus">0m</div>
-          <div class="stat-lbl">Focus</div>
-        </div>
-      </div>
-
-      <div class="section-label">Today's Habits</div>
-      <div class="habit-scroll" id="dash-habits">
-        <div style="color:var(--t3);font-size:13px;padding:8px 0">No habits yet</div>
-      </div>
-
-      <div class="section-label">Priority Tasks</div>
-      <div id="dash-tasks">
-        <div style="color:var(--t3);font-size:13px;padding:8px 0">No tasks yet</div>
+<!-- FOCUS TIMER -->
+<div class="screen" id="screen-timer">
+  <div class="page-title">Focus</div>
+  <div class="page-sub">Deep work, earned rest</div>
+  <div class="notif-hint" id="notif-hint">
+    🔔 Enable notifications to get alerted when your session ends
+  </div>
+  <div class="timer-wrap">
+    <div class="session-tabs">
+      <button class="session-tab active" onclick="setSession('Focus',25)">25 min</button>
+      <button class="session-tab" onclick="setSession('Short Break',5)">5 min</button>
+      <button class="session-tab" onclick="setSession('Long Break',15)">15 min</button>
+      <button class="session-tab" id="custom-tab" onclick="openCustomTimer()">Custom</button>
+    </div>
+    <div class="timer-ring-wrap">
+      <svg class="ring-svg" viewBox="0 0 230 230">
+        <circle class="timer-ring-bg" cx="115" cy="115" r="100"/>
+        <circle class="timer-ring-fill" id="ring-fill" cx="115" cy="115" r="100"
+          stroke="#3B82F6" stroke-dasharray="628.3" stroke-dashoffset="0"/>
+      </svg>
+      <div class="timer-center">
+        <svg id="timer-mascot" width="44" height="44" viewBox="0 0 80 80" fill="none" style="margin-bottom:4px">
+          <circle cx="40" cy="38" r="24" fill="url(#tg)"/>
+          <circle cx="33" cy="34" r="5" fill="white" opacity="0.95"/>
+          <circle cx="47" cy="34" r="5" fill="white" opacity="0.95"/>
+          <circle cx="34" cy="35" r="2.5" fill="#0F1120"/><circle cx="48" cy="35" r="2.5" fill="#0F1120"/>
+          <path id="timer-mouth" d="M34 43 Q40 48 46 43" stroke="white" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.9"/>
+          <defs><linearGradient id="tg" x1="16" y1="14" x2="64" y2="62" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#2DD4BF"/><stop offset="100%" stop-color="#3B82F6"/>
+          </linearGradient></defs>
+        </svg>
+        <div class="timer-time" id="timer-display">25:00</div>
+        <div class="timer-label" id="session-label">Focus</div>
       </div>
     </div>
-
-    <!-- ══ HABITS ══ -->
-    <div class="screen" id="screen-habits">
-      <div class="page-title">Habits</div>
-      <div class="page-sub">Build streaks, one day at a time</div>
-      <div id="habits-list"></div>
+    <div class="timer-controls">
+      <button class="ctrl-btn" onclick="resetTimer()">↺</button>
+      <button class="play-btn" id="play-btn" onclick="toggleTimer()">▶</button>
+      <button class="ctrl-btn" onclick="skipTimer()">⏭</button>
     </div>
+    <div class="section-label" style="width:100%;margin-top:30px">Today's Sessions</div>
+    <div id="session-history" style="width:100%"></div>
+  </div>
+</div>
 
-    <!-- ══ TASKS ══ -->
-    <div class="screen" id="screen-tasks">
-      <div class="page-title">Tasks</div>
-      <div class="page-sub">Stay on top of what matters</div>
-      <div id="tasks-list"></div>
-    </div>
+<!-- JOURNAL -->
+<div class="screen" id="screen-notes">
+  <div class="page-title">Journal</div>
+  <div class="page-sub">Your thoughts, tracked over time</div>
+  <button class="new-note-btn" onclick="openNewNote()">+ New Entry</button>
+  <div id="notes-list"></div>
+</div>
 
-    <!-- ══ FOCUS TIMER ══ -->
-    <div class="screen" id="screen-timer">
-      <div class="page-title">Focus</div>
-      <div class="page-sub">Deep work, earned rest</div>
-      <div class="timer-wrap">
-        <div class="session-tabs">
-          <button class="session-tab active" onclick="setSession('Focus',25)">25 min</button>
-          <button class="session-tab" onclick="setSession('Short Break',5)">5 min</button>
-          <button class="session-tab" onclick="setSession('Long Break',15)">15 min</button>
-          <button class="session-tab" id="custom-tab" onclick="openCustomTimer()">Custom</button>
+<!-- AI -->
+<div class="screen" id="screen-ai">
+  <div class="chat-wrap">
+    <div class="chat-header">
+      <div class="page-title">AI Assistant</div>
+      <div class="page-sub">Powered by OpenRouter · Controls your app</div>
+      <div class="api-banner" id="api-banner">
+        <strong>🔑 Connect your OpenRouter key to enable AI</strong><br>
+        Free at <a href="https://openrouter.ai" target="_blank">openrouter.ai</a> — use any model you like
+        <div class="key-row">
+          <input class="key-input" type="password" id="api-key-input" placeholder="sk-or-...">
+          <button class="key-save" onclick="saveApiKey()">Save</button>
         </div>
-        <div class="timer-ring-wrap">
-          <div class="timer-ring-bg-track"></div>
-          <svg class="ring-svg" viewBox="0 0 230 230">
-            <circle class="timer-ring-bg" cx="115" cy="115" r="100"/>
-            <circle class="timer-ring-fill" id="ring-fill" cx="115" cy="115" r="100"
-              stroke="#3B82F6" stroke-dasharray="628.3" stroke-dashoffset="0"/>
-          </svg>
-          <div class="timer-center">
-            <svg id="timer-mascot" width="44" height="44" viewBox="0 0 80 80" fill="none" style="margin-bottom:4px">
-              <circle cx="40" cy="38" r="24" fill="url(#tg)"/>
-              <circle cx="33" cy="34" r="5" fill="white" opacity="0.95"/>
-              <circle cx="47" cy="34" r="5" fill="white" opacity="0.95"/>
-              <circle cx="34" cy="35" r="2.5" fill="#0F1120"/>
-              <circle cx="48" cy="35" r="2.5" fill="#0F1120"/>
-              <path id="timer-mouth" d="M34 43 Q40 48 46 43" stroke="white" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.9"/>
-              <defs>
-                <linearGradient id="tg" x1="16" y1="14" x2="64" y2="62" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stop-color="#2DD4BF"/>
-                  <stop offset="100%" stop-color="#3B82F6"/>
-                </linearGradient>
-              </defs>
-            </svg>
-            <div class="timer-time" id="timer-display">25:00</div>
-            <div class="timer-label" id="session-label">Focus</div>
-          </div>
-        </div>
-        <div class="timer-controls">
-          <button class="ctrl-btn" onclick="resetTimer()">↺</button>
-          <button class="play-btn" id="play-btn" onclick="toggleTimer()">▶</button>
-          <button class="ctrl-btn" onclick="skipTimer()">⏭</button>
-        </div>
-        <div class="section-label" style="width:100%;margin-top:30px">Today's Sessions</div>
-        <div id="session-history" style="width:100%"></div>
-      </div>
-    </div>
-
-    <!-- ══ JOURNAL ══ -->
-    <div class="screen" id="screen-notes">
-      <div class="page-title">Journal</div>
-      <div class="page-sub">Your thoughts, tracked over time</div>
-      <button class="new-note-btn" onclick="openNewNote()">+ New Entry</button>
-      <div id="notes-list"></div>
-    </div>
-
-    <!-- ══ AI ══ -->
-    <div class="screen" id="screen-ai">
-      <div class="chat-wrap">
-        <div class="chat-header">
-          <div class="page-title">AI Assistant</div>
-          <div class="page-sub">Powered by Claude · Always in your corner</div>
-          <div class="api-banner" id="api-banner">
-            <strong>🔑 Enter your Claude API key to enable AI</strong><br>
-            Get a free key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a>
-            <div class="key-row">
-              <input class="key-input" type="password" id="api-key-input" placeholder="sk-ant-...">
-              <button class="key-save" onclick="saveApiKey()">Save</button>
-            </div>
-          </div>
-        </div>
-        <div class="chat-messages" id="chat-messages"></div>
-        <div class="chat-input-row">
-          <textarea class="chat-input" id="chat-input" placeholder="Ask me anything..." rows="1"
-            onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"
-            oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
-          <button class="send-btn" onclick="sendChat()">↑</button>
+        <div class="model-row">
+          <label class="form-label" style="margin-bottom:6px;display:block">Model</label>
+          <select class="form-select" id="model-select" onchange="changeModel()"></select>
         </div>
       </div>
     </div>
-
-    <!-- ══ PROFILE ══ -->
-    <div class="screen" id="screen-profile">
-      <div class="page-title">Profile</div>
-      <div class="page-sub">Your FlowMind journey</div>
-
-      <!-- Profile hero -->
-      <div class="profile-hero">
-        <div class="profile-avatar-wrap">
-          <div class="profile-avatar" id="profile-avatar-display">🧠</div>
-          <div class="profile-avatar-ring"></div>
-        </div>
-        <div class="profile-info">
-          <div class="profile-name" id="profile-name-display">Your Name</div>
-          <div class="profile-meta" id="profile-joined">Member</div>
-          <div class="profile-bday" id="profile-birthday-display"></div>
-        </div>
-        <button class="profile-edit-btn" onclick="openEditProfile()">✏️</button>
-      </div>
-
-      <!-- Lifetime stats -->
-      <div class="section-label">Lifetime Stats</div>
-      <div class="profile-stats-grid">
-        <div class="profile-stat">
-          <div class="ps-val" id="ps-focus">0m</div>
-          <div class="ps-lbl">Focus Time</div>
-        </div>
-        <div class="profile-stat">
-          <div class="ps-val" id="ps-tasks">0</div>
-          <div class="ps-lbl">Tasks Done</div>
-        </div>
-        <div class="profile-stat">
-          <div class="ps-val" id="ps-streak">0</div>
-          <div class="ps-lbl">Best Streak</div>
-        </div>
-      </div>
-
-      <!-- Goals -->
-      <div class="section-label">My Goals</div>
-      <div class="profile-goals" id="profile-goals"></div>
-
-      <!-- Today's affirmation on profile too -->
-      <div class="section-label">Today's Affirmation</div>
-      <div class="affirmation-card" style="margin-top:0">
-        <div class="affirmation-label">✦ Keep this close</div>
-        <div class="affirmation-text" id="profile-affirmation"></div>
-      </div>
+    <div class="chat-messages" id="chat-messages"></div>
+    <div class="chat-input-row">
+      <button class="copy-input-btn" id="copy-input-btn" onclick="copyUserInput()" title="Copy your message">⎘</button>
+      <textarea class="chat-input" id="chat-input" placeholder="Ask me anything, or say 'add habit: run'..." rows="1"
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"
+        oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+      <button class="send-btn" onclick="sendChat()">↑</button>
     </div>
+  </div>
+</div>
+
+<!-- PROFILE -->
+<div class="screen" id="screen-profile">
+  <div class="page-title">Profile</div>
+  <div class="page-sub">Your FlowMind journey</div>
+  <div class="profile-hero">
+    <div class="profile-avatar-wrap">
+      <div class="profile-avatar" id="profile-avatar-display">🧠</div>
+      <div class="profile-avatar-ring"></div>
+    </div>
+    <div class="profile-info">
+      <div class="profile-name" id="profile-name-display">Your Name</div>
+      <div class="profile-meta" id="profile-joined">Member</div>
+      <div class="profile-bday" id="profile-birthday-display"></div>
+    </div>
+    <button class="profile-edit-btn" onclick="openEditProfile()">✏️</button>
+  </div>
+  <div class="section-label">Lifetime Stats</div>
+  <div class="profile-stats-grid">
+    <div class="profile-stat"><div class="ps-val" id="ps-focus">0m</div><div class="ps-lbl">Focus Time</div></div>
+    <div class="profile-stat"><div class="ps-val" id="ps-tasks">0</div><div class="ps-lbl">Tasks Done</div></div>
+    <div class="profile-stat"><div class="ps-val" id="ps-streak">0</div><div class="ps-lbl">Best Streak</div></div>
+  </div>
+  <div class="section-label">My Goals</div>
+  <div class="profile-goals" id="profile-goals"></div>
+  <div class="section-label">Today's Affirmation</div>
+  <div class="affirmation-card" style="margin-top:0">
+    <div class="affirmation-label">✦ Keep this close</div>
+    <div class="affirmation-text" id="profile-affirmation"></div>
+  </div>
+</div>
+```
 
   </div><!-- /app-content -->
 
-  <!-- ══ TAB BAR ══ -->
   <nav class="tab-bar">
-    <button class="tab-btn active" onclick="showTab('dashboard',this)">
-      <div class="tab-icon">⬡</div>Today
-    </button>
-    <button class="tab-btn" onclick="showTab('habits',this)">
-      <div class="tab-icon">✦</div>Habits
-    </button>
-    <button class="tab-btn" onclick="showTab('tasks',this)">
-      <div class="tab-icon">◈</div>Tasks
-    </button>
-    <button class="tab-btn" onclick="showTab('timer',this)">
-      <div class="tab-icon">◎</div>Focus
-    </button>
-    <button class="tab-btn" onclick="showTab('notes',this)">
-      <div class="tab-icon">⌘</div>Journal
-    </button>
-    <button class="tab-btn" onclick="showTab('ai',this)">
-      <div class="tab-icon">✧</div>AI
-    </button>
-    <button class="tab-btn" onclick="showTab('profile',this)">
-      <div class="tab-icon" id="tab-profile-icon">👤</div>Me
-    </button>
+    <button class="tab-btn active" onclick="showTab('dashboard',this)"><div class="tab-icon">⬡</div>Today</button>
+    <button class="tab-btn" onclick="showTab('habits',this)"><div class="tab-icon">✦</div>Habits</button>
+    <button class="tab-btn" onclick="showTab('tasks',this)"><div class="tab-icon">◈</div>Tasks</button>
+    <button class="tab-btn" onclick="showTab('timer',this)"><div class="tab-icon">◎</div>Focus</button>
+    <button class="tab-btn" onclick="showTab('notes',this)"><div class="tab-icon">⌘</div>Journal</button>
+    <button class="tab-btn" onclick="showTab('ai',this)"><div class="tab-icon">✧</div>AI</button>
+    <button class="tab-btn" onclick="showTab('profile',this)"><div class="tab-icon" id="tab-profile-icon">👤</div>Me</button>
   </nav>
-
   <button class="fab" id="fab" onclick="openAdd()">+</button>
-
-</div><!-- /app -->
-
+</div>
 
 <!-- ════ MODALS ════ -->
 
 <!-- ADD HABIT -->
+
 <div class="modal-overlay" id="modal-habit">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-title">New Habit ✦</div>
-    <div class="form-group">
-      <label class="form-label">Habit name</label>
-      <input class="form-input" id="h-name" placeholder="e.g. Morning run">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Pick an emoji</label>
-      <div class="emoji-row" id="emoji-row"></div>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Frequency</label>
-      <select class="form-select" id="h-freq">
-        <option>Daily</option><option>Weekdays</option><option>Weekly</option>
-      </select>
+    <div class="form-group"><label class="form-label">Habit name</label><input class="form-input" id="h-name" placeholder="e.g. Morning run"></div>
+    <div class="form-group"><label class="form-label">Pick an emoji</label><div class="emoji-row" id="emoji-row"></div></div>
+    <div class="form-group"><label class="form-label">Frequency</label>
+      <select class="form-select" id="h-freq"><option>Daily</option><option>Weekdays</option><option>Weekly</option></select>
     </div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModals()">Cancel</button>
@@ -367,28 +283,39 @@
   </div>
 </div>
 
+<!-- EDIT HABIT -->
+
+<div class="modal-overlay" id="modal-edit-habit">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Edit Habit ✏️</div>
+    <input type="hidden" id="edit-habit-index">
+    <div class="form-group"><label class="form-label">Habit name</label><input class="form-input" id="edit-h-name"></div>
+    <div class="form-group"><label class="form-label">Pick an emoji</label><div class="emoji-row" id="edit-emoji-row"></div></div>
+    <div class="form-group"><label class="form-label">Frequency</label>
+      <select class="form-select" id="edit-h-freq"><option>Daily</option><option>Weekdays</option><option>Weekly</option></select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModals()">Cancel</button>
+      <button class="btn btn-danger" onclick="deleteHabit()">Delete</button>
+      <button class="btn btn-primary" onclick="saveEditHabit()">Save</button>
+    </div>
+  </div>
+</div>
+
 <!-- ADD TASK -->
+
 <div class="modal-overlay" id="modal-task">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-title">New Task ◈</div>
-    <div class="form-group">
-      <label class="form-label">Task title</label>
-      <input class="form-input" id="t-name" placeholder="e.g. Send weekly report">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Priority</label>
+    <div class="form-group"><label class="form-label">Task title</label><input class="form-input" id="t-name" placeholder="e.g. Send weekly report"></div>
+    <div class="form-group"><label class="form-label">Priority</label>
       <select class="form-select" id="t-priority">
-        <option value="low">Low</option>
-        <option value="medium" selected>Medium</option>
-        <option value="high">High</option>
-        <option value="urgent">Urgent</option>
+        <option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option><option value="urgent">Urgent</option>
       </select>
     </div>
-    <div class="form-group">
-      <label class="form-label">Due date (optional)</label>
-      <input class="form-input" type="date" id="t-due">
-    </div>
+    <div class="form-group"><label class="form-label">Due date (optional)</label><input class="form-input" type="date" id="t-due"></div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModals()">Cancel</button>
       <button class="btn btn-primary" onclick="addTask()">Add Task</button>
@@ -397,26 +324,19 @@
 </div>
 
 <!-- EDIT TASK -->
+
 <div class="modal-overlay" id="modal-edit-task">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-title">Edit Task ✏️</div>
     <input type="hidden" id="edit-task-index">
-    <div class="form-group">
-      <label class="form-label">Task title</label>
-      <input class="form-input" id="edit-t-name">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Priority</label>
+    <div class="form-group"><label class="form-label">Task title</label><input class="form-input" id="edit-t-name"></div>
+    <div class="form-group"><label class="form-label">Priority</label>
       <select class="form-select" id="edit-t-priority">
-        <option value="low">Low</option><option value="medium">Medium</option>
-        <option value="high">High</option><option value="urgent">Urgent</option>
+        <option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option><option value="urgent">Urgent</option>
       </select>
     </div>
-    <div class="form-group">
-      <label class="form-label">Due date (optional)</label>
-      <input class="form-input" type="date" id="edit-t-due">
-    </div>
+    <div class="form-group"><label class="form-label">Due date (optional)</label><input class="form-input" type="date" id="edit-t-due"></div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModals()">Cancel</button>
       <button class="btn btn-danger" onclick="deleteTask()">Delete</button>
@@ -426,18 +346,13 @@
 </div>
 
 <!-- CUSTOM TIMER -->
+
 <div class="modal-overlay" id="modal-custom-timer">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-title">Custom Timer ◎</div>
-    <div class="form-group">
-      <label class="form-label">Duration (1–180 minutes)</label>
-      <input class="form-input" type="number" id="custom-mins" placeholder="e.g. 45" min="1" max="180">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Label (optional)</label>
-      <input class="form-input" id="custom-label" placeholder="e.g. Deep Read">
-    </div>
+    <div class="form-group"><label class="form-label">Duration (1–180 min)</label><input class="form-input" type="number" id="custom-mins" placeholder="e.g. 45" min="1" max="180"></div>
+    <div class="form-group"><label class="form-label">Label (optional)</label><input class="form-input" id="custom-label" placeholder="e.g. Deep Read"></div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModals()">Cancel</button>
       <button class="btn btn-primary" onclick="applyCustomTimer()">Start Timer</button>
@@ -445,24 +360,16 @@
   </div>
 </div>
 
-<!-- NEW / EDIT NOTE -->
+<!-- JOURNAL ENTRY -->
+
 <div class="modal-overlay" id="modal-note">
   <div class="modal modal-tall">
     <div class="modal-handle"></div>
     <div class="modal-title" id="note-modal-title">New Entry ⌘</div>
     <input type="hidden" id="note-index">
-    <div class="form-group">
-      <label class="form-label">Title</label>
-      <input class="form-input" id="note-title" placeholder="What's on your mind?">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Entry</label>
-      <textarea class="form-input note-textarea" id="note-body" placeholder="Write freely..."></textarea>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Mood</label>
-      <div class="mood-row" id="mood-row"></div>
-    </div>
+    <div class="form-group"><label class="form-label">Title</label><input class="form-input" id="note-title" placeholder="What's on your mind?"></div>
+    <div class="form-group"><label class="form-label">Entry</label><textarea class="form-input note-textarea" id="note-body" placeholder="Write freely..."></textarea></div>
+    <div class="form-group"><label class="form-label">Mood</label><div class="mood-row" id="mood-row"></div></div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModals()">Cancel</button>
       <button class="btn btn-danger" id="note-delete-btn" onclick="deleteNote()" style="display:none">Delete</button>
@@ -472,22 +379,14 @@
 </div>
 
 <!-- EDIT PROFILE -->
+
 <div class="modal-overlay" id="modal-edit-profile">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-title">Edit Profile</div>
-    <div class="form-group">
-      <label class="form-label">Your name</label>
-      <input class="form-input" id="edit-profile-name" placeholder="First name">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Birthday</label>
-      <input class="form-input" type="date" id="edit-profile-birthday">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Avatar</label>
-      <div class="avatar-grid" id="edit-avatar-grid"></div>
-    </div>
+    <div class="form-group"><label class="form-label">Your name</label><input class="form-input" id="edit-profile-name" placeholder="First name"></div>
+    <div class="form-group"><label class="form-label">Birthday</label><input class="form-input" type="date" id="edit-profile-birthday"></div>
+    <div class="form-group"><label class="form-label">Avatar</label><div class="avatar-grid" id="edit-avatar-grid"></div></div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModals()">Cancel</button>
       <button class="btn btn-primary" onclick="saveProfile()">Save</button>
@@ -496,5 +395,6 @@
 </div>
 
 <script src="app.js"></script>
+
 </body>
 </html>
