@@ -162,6 +162,11 @@ function obNext() {
     finishOnboarding(); return;
   }
   onboardStep++;
+  // Populate final name on step 4
+  if (onboardStep === 4) {
+    const el = document.getElementById('ob-final-name');
+    if (el) el.textContent = onboardData.name || 'friend';
+  }
   renderOnboardStep();
 }
 
@@ -195,6 +200,9 @@ function launchApp() {
   buildPicker('emoji-row', EMOJIS, e => { selectedEmoji = e; }, 'emoji-btn');
   buildPicker('mood-row',  MOODS,  m => { selectedMood  = m; }, 'mood-btn');
   if (state.apiKey) document.getElementById('api-banner').style.display = 'none';
+  // Set profile tab icon to user's avatar
+  const tabIcon = document.getElementById('tab-profile-icon');
+  if (tabIcon && state.profile?.avatar) tabIcon.textContent = state.profile.avatar;
   initChat();
   renderAll();
   initTimer();
@@ -240,7 +248,11 @@ function renderProfile() {
 
   // Birthday
   document.getElementById('profile-birthday-display').textContent =
-    p.birthday ? new Date(p.birthday + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) : 'Not set';
+    p.birthday ? '🎂 ' + new Date(p.birthday + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) : '';
+
+  // Affirmation on profile screen
+  const profAff = document.getElementById('profile-affirmation');
+  if (profAff) profAff.textContent = getDailyAffirmation();
 }
 
 function openEditProfile() {
@@ -594,7 +606,7 @@ function skipTimer() {
 function updateTimerDisplay() {
   const m = Math.floor(timeLeft / 60), s = timeLeft % 60;
   document.getElementById('timer-display').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-  document.getElementById('ring-fill').style.strokeDashoffset = CIRC * (timeLeft / totalTime);
+  document.getElementById('ring-fill').style.strokeDashoffset = CIRC * (1 - timeLeft / totalTime);
 }
 
 function saveSession(dur) {
